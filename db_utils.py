@@ -38,3 +38,4 @@ if __name__ == "__main__":
     print("Sample of the data:")
     print(data.head())
     print(data.columns)
+    
