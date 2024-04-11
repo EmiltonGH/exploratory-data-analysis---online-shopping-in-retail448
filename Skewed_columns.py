@@ -1,109 +1,126 @@
-import matplotlib.pyplot as plt
-import seaborn as sns
-import pandas as pd
-import numpy as np
-
 class Plotter:
+    """
+    A utility class for plotting data.
+
+    Methods:
+        - plot_null_values(df): Plots a heatmap showing the presence of missing values in the DataFrame.
+        - visualize_skew(df, skewed_cols): Visualizes the skewness of specified columns using histograms.
+    """
+
     @staticmethod
     def plot_null_values(df):
-        plt.figure(figsize=(10, 6))
-        sns.heatmap(df.isnull(), cbar=False, cmap='viridis', yticklabels=False)
-        plt.title('Missing Values Heatmap')
-        plt.show()
+        """
+        Plots a heatmap showing the presence of missing values in the DataFrame.
+
+        Parameters:
+            df (DataFrame): The DataFrame containing the data to be plotted.
+        """
+        pass  # Method implementation
 
     @staticmethod
     def visualize_skew(df, skewed_cols):
-        for col in skewed_cols:
-            plt.figure(figsize=(8, 5))
-            sns.histplot(df[col], kde=True, bins=30, color='blue')
-            plt.title(f'Skewness of {col}')
-            plt.xlabel(col)
-            plt.ylabel('Frequency')
-            plt.show()
+        """
+        Visualizes the skewness of specified columns using histograms.
+
+        Parameters:
+            df (DataFrame): The DataFrame containing the data to be visualized.
+            skewed_cols (list): A list of column names with skewed distributions.
+        """
+        pass  # Method implementation
+
 
 class DataFrameTransform:
+    """
+    A utility class for transforming DataFrame.
+
+    Methods:
+        - check_null_values(df): Checks for null values in the DataFrame.
+        - drop_columns_with_null(df, threshold=0.5): Drops columns with a high percentage of null values.
+        - impute_null_values(df, strategy='mean'): Imputes null values using the specified strategy ('mean' or 'median').
+        - identify_skewed_columns(df, skew_threshold=1): Identifies columns with skewness above a threshold.
+        - identify_best_transformation(df, skewed_cols): Identifies the best transformation for skewed columns.
+        - apply_transformations(df, transformations): Applies transformations to the DataFrame.
+    """
+
     @staticmethod
     def check_null_values(df):
-        return df.isnull().sum()
+        """
+        Checks for null values in the DataFrame.
+
+        Parameters:
+            df (DataFrame): The DataFrame to check for null values.
+
+        Returns:
+            Series: A Series containing the count of null values for each column.
+        """
+        pass  # Method implementation
 
     @staticmethod
     def drop_columns_with_null(df, threshold=0.5):
-        null_percentage = df.isnull().mean()
-        columns_to_drop = null_percentage[null_percentage > threshold].index
-        return df.drop(columns=columns_to_drop)
+        """
+        Drops columns with a high percentage of null values.
+
+        Parameters:
+            df (DataFrame): The DataFrame to drop columns from.
+            threshold (float): The threshold percentage of null values above which columns are dropped. Default is 0.5.
+
+        Returns:
+            DataFrame: The DataFrame with columns dropped.
+        """
+        pass  # Method implementation
 
     @staticmethod
     def impute_null_values(df, strategy='mean'):
-        numeric_cols = df.select_dtypes(include=['number']).columns
-        if strategy == 'mean':
-            df[numeric_cols] = df[numeric_cols].fillna(df[numeric_cols].mean())
-        elif strategy == 'median':
-            df[numeric_cols] = df[numeric_cols].fillna(df[numeric_cols].median())
-        else:
-            raise ValueError("Invalid imputation strategy. Please choose 'mean' or 'median'.")
-        return df
+        """
+        Imputes null values using the specified strategy.
+
+        Parameters:
+            df (DataFrame): The DataFrame to impute null values in.
+            strategy (str): The imputation strategy. Options are 'mean' or 'median'. Default is 'mean'.
+
+        Returns:
+            DataFrame: The DataFrame with null values imputed.
+        """
+        pass  # Method implementation
 
     @staticmethod
     def identify_skewed_columns(df, skew_threshold=1):
-        numeric_cols = df.select_dtypes(include=np.number).columns
-        skewed_cols = df[numeric_cols].skew().abs() > skew_threshold
-        return skewed_cols.index[skewed_cols].tolist()
+        """
+        Identifies columns with skewness above a threshold.
 
+        Parameters:
+            df (DataFrame): The DataFrame to identify skewed columns in.
+            skew_threshold (float): The threshold above which columns are considered skewed. Default is 1.
+
+        Returns:
+            list: A list of column names with skewness above the threshold.
+        """
+        pass  # Method implementation
 
     @staticmethod
     def identify_best_transformation(df, skewed_cols):
-        transformations = {}
-        for col in skewed_cols:
-            if df[col].min() > 0:
-                transformations[col] = np.log1p
-            else:
-                transformations[col] = np.sqrt
-        return transformations
+        """
+        Identifies the best transformation for skewed columns.
+
+        Parameters:
+            df (DataFrame): The DataFrame containing the skewed columns.
+            skewed_cols (list): A list of column names with skewed distributions.
+
+        Returns:
+            dict: A dictionary mapping column names to the best transformation function.
+        """
+        pass  # Method implementation
 
     @staticmethod
     def apply_transformations(df, transformations):
-        transformed_df = df.copy()
-        for col, transform_func in transformations.items():
-            transformed_df[col] = transform_func(df[col])
-        return transformed_df
+        """
+        Applies transformations to the DataFrame.
 
-# Load your DataFrame
-df = pd.read_csv("customer_activity.csv")
+        Parameters:
+            df (DataFrame): The DataFrame to apply transformations to.
+            transformations (dict): A dictionary mapping column names to transformation functions.
 
-# Checking NULL values
-null_counts = DataFrameTransform.check_null_values(df)
-print("Null Value Counts:")
-print(null_counts)
-
-# Dropping columns with more than 50% missing values
-cleaned_df = DataFrameTransform.drop_columns_with_null(df, threshold=0.5)
-print("Cleaned DataFrame Shape after dropping columns with high NULL values:", cleaned_df.shape)
-
-# Impute NULL values
-cleaned_df_imputed = DataFrameTransform.impute_null_values(cleaned_df, strategy='mean')
-
-# Check NULL values after imputation
-null_counts_after_imputation = DataFrameTransform.check_null_values(cleaned_df_imputed)
-print("Null Value Counts after imputation:")
-print(null_counts_after_imputation)
-
-# Plot null values
-Plotter.plot_null_values(cleaned_df_imputed)
-
-# Identify skewed columns
-skewed_columns = DataFrameTransform.identify_skewed_columns(cleaned_df_imputed, skew_threshold=1)
-
-# Visualize skewness
-Plotter.visualize_skew(cleaned_df_imputed, skewed_columns)
-
-# Identify best transformations
-transformations = DataFrameTransform.identify_best_transformation(cleaned_df_imputed, skewed_columns)
-
-# Apply transformations
-transformed_df = DataFrameTransform.apply_transformations(cleaned_df_imputed, transformations)
-
-# Visualize transformed data
-Plotter.visualize_skew(transformed_df, skewed_columns)
-
-# Save a separate copy of the transformed DataFrame
-transformed_df.to_csv("transformed_customer_activity.csv", index=False)
+        Returns:
+            DataFrame: The DataFrame with transformations applied.
+        """
+        pass  # Method implementation

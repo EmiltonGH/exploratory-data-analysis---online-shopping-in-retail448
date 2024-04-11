@@ -91,12 +91,12 @@ print(null_counts_after_imputation)
 # Plot null values
 Plotter.plot_null_values(cleaned_df_imputed)
 
-# Step 1: Visualize outliers
+# Visualize outliers
 Plotter.visualize_outliers(cleaned_df_imputed)
 
-# Step 2: Remove outliers
+# Remove outliers
 columns_to_check_for_outliers = cleaned_df_imputed.select_dtypes(include=['number']).columns
 cleaned_df_no_outliers = DataFrameTransform.remove_outliers(cleaned_df_imputed, columns_to_check_for_outliers)
 
-# Step 3: Re-visualize after removing outliers
+# Re-visualize after removing outliers
 Plotter.visualize_outliers(cleaned_df_no_outliers)

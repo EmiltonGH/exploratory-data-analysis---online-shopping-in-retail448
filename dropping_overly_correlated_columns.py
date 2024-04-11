@@ -35,11 +35,11 @@ class DataFrameTransform:
 # Load your DataFrame
 df = pd.read_csv("customer_activity.csv")
 
-# Step 1: Compute and visualize the correlation matrix
+# Compute and visualize the correlation matrix
 Plotter.plot_correlation_matrix(df)
 
-# Step 2 and 3: Identify and decide which columns to remove based on a correlation threshold
-threshold = 0.8  # You can adjust this threshold as needed
+# Identify and decide which columns to remove based on a correlation threshold
+threshold = 0.8  
 # Drop non-numeric columns before computing the correlation matrix
 numeric_df = df.select_dtypes(include=[np.number])
 correlation_matrix = numeric_df.corr().abs()
@@ -51,6 +51,6 @@ for pair in highly_correlated_columns:
     if pair[0] != pair[1]:
         print(pair)
 
-# Step 4: Remove highly correlated columns
+# Remove highly correlated columns
 cleaned_df = DataFrameTransform.remove_highly_correlated_columns(df, threshold=threshold)
 print("Cleaned DataFrame Shape after removing highly correlated columns:", cleaned_df.shape)

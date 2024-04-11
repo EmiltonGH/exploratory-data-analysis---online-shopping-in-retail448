@@ -7,7 +7,7 @@ customer_activity = pd.read_csv('customer_activity.csv')  # Replace 'customer_ac
 # Drop rows with missing values in the 'operating_systems' column
 customer_activity = customer_activity.dropna(subset=['operating_systems'])
 
-# 1. Count of operating systems used to visit the site and the percentage of the total
+# Count of operating systems used to visit the site and the percentage of the total
 operating_system_counts = customer_activity['operating_systems'].value_counts()
 operating_system_percentages = operating_system_counts / operating_system_counts.sum() * 100
 
@@ -27,7 +27,7 @@ plt.ylabel('')
 plt.tight_layout()
 plt.show()
 
-# 2. Amount of users visiting the site using mobile operating systems and desktop operating systems
+# Amount of users visiting the site using mobile operating systems and desktop operating systems
 mobile_os_counts = customer_activity[customer_activity['operating_systems'].str.contains('Mobile', na=False, case=False)]['operating_systems'].value_counts()
 desktop_os_counts = customer_activity[~customer_activity['operating_systems'].str.contains('Mobile', na=False, case=False)]['operating_systems'].value_counts()
 
@@ -39,7 +39,7 @@ plt.ylabel('Count')
 plt.tight_layout()
 plt.show()
 
-# 3. Most commonly used browsers and their breakdown on mobile versus desktop
+# Most commonly used browsers and their breakdown on mobile versus desktop
 browser_counts = customer_activity['browser'].value_counts()
 mobile_browser_counts = customer_activity[customer_activity['operating_systems'].str.contains('Mobile', na=False, case=False)]['browser'].value_counts()
 desktop_browser_counts = customer_activity[~customer_activity['operating_systems'].str.contains('Mobile', na=False, case=False)]['browser'].value_counts()
@@ -56,7 +56,7 @@ plt.legend()
 plt.tight_layout()
 plt.show()
 
-# 4. Analysis of popular operating systems and discrepancies in regions
+# Analysis of popular operating systems and discrepancies in regions
 popular_os = operating_system_counts.idxmax()
 region_os_counts = customer_activity.groupby('region')['operating_systems'].apply(lambda x: (x == popular_os).sum())
 region_os_counts.plot(kind='bar', color='skyblue', figsize=(10, 6))
