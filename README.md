@@ -88,15 +88,13 @@ Before you start using this project, ensure that you have the following prerequi
      What traffic has the highest bounce rate? This could indicate that the marketing channels advertisement       isn't enticing enough for the customers. Conversely a low bounce rate can indicate that the strategy is      highly effective. Break down this data by region.
      Check what months have generated the most sales from ads traffic
 
-
-
-
-      
-
-
-
-
-
+   - revenue_generated.py:
+     We have been asked to determine where the website revenue is being generated and identifying any problematic      areas in the data. Therefore we created visualisations and generate reports for the following queries:
+     Which region is currently generating the most/least revenue?
+     What percentage of our returning/new customers are making a purchase when they visit the site?
+     Are sales being made more on weekends comparatively to weekdays?
+     Which months have been the most effective for generating sales?
+     Is direct/social or advertising traffic contributing heavily to sales?
      
 ## Table columns
    Below columns of the database to help you understand their meaning.
