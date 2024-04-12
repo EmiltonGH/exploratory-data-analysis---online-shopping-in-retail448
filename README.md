@@ -74,6 +74,23 @@ Before you start using this project, ensure that you have the following prerequi
      What percentage of time is spent on the website performing administrative/product or informational      related tasks?
      Are there any informational/administrative tasks which users spend time doing most?
      What is the breakdown of months making the most sales?
+
+   - customers_and_softwares.py:
+     The company would like to know what systems our users are using to visit the website. To answer this      question we created visualisations of the following:
+     The count of the operating systems used to visit the site and the percentage of the total
+     The amount of users visiting the site using mobile operating system and desktop operating systems
+     The most commonly used browsers and their breakdown on mobile versus desktop
+     Based on this analysis of what are the most popular operating system, are there any regions where there is a      discrepancy in what is popular? This could be an indication that users in that region are having technical      issues that the tech team might want to investigate.
+
+   - effective_marketing.py:
+     The company whats to investigate the traffic coming to the website to see if the marketing team can make any      improvements to their existing strategy. They would like the following information so that they can make      better decisions about what is/isn't working. We created visualisations of the following data:
+     Visualise what traffic is currently generating the most revenue broken down by region
+     What traffic has the highest bounce rate? This could indicate that the marketing channels advertisement       isn't enticing enough for the customers. Conversely a low bounce rate can indicate that the strategy is      highly effective. Break down this data by region.
+     Check what months have generated the most sales from ads traffic
+
+
+
+
       
 
 
