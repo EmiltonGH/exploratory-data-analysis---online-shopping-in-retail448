@@ -28,22 +28,58 @@ Before you start using this project, ensure that you have the following prerequi
    - SQLalchemy
 
 ## File structure of the project
-   - Setup GitHub
+   - Setup GitHub:
      We will use GitHub to track changes to our code and save them online in a GitHub repo.
      
-   - db_utils.py
+   - db_utils.py:
      This Python script contain our code to extract the data from the database.Within the script,we create a       new class called RDSDatabaseConnector. This class will contain the methods which we will use to extract       data from the RDS database.
      
-   - credentials.yaml
-     Created this file to store the database credentials.Added this file to our .gitignore file in our      repository, as we don't want our credentials being pushed to GitHub for security reasons.
+   - credentials.yaml:
+     Created this file to store the database credentials.Added this file to our .gitignore file in our           repository, as we don't want our credentials being pushed to GitHub for security reasons.
 
-   - customer_activity.csv
+   - customer_activity.csv:
      The data is stored in a table called customer_activity.
 
-   - DataTransform.py
-     If there are columns should be converted into a different format, a DataTransform class to handle these      conversions. Within the DataTransform class we add methods which we can apply to our DataFrame columns      to perform any required conversions.
+   - DataTransform.py:
+     If there are columns should be converted into a different format, a DataTransform class to handle these       conversions. Within the DataTransform class we add methods which we can apply to our DataFrame columns        to perform any required conversions.
 
-   - DataFrameInfo.py
+   - DataFrameInfo.py:
+     After converting our columns to a more appropriate format, we develop a class to extract information         from the DataFrame and its columns. Created a DataFrameInfo class which will contain methods that            generate useful information about our DataFrame.
+
+   - plottingdata.py:
+     An important EDA task is to impute or remove missing values from the dataset. Missing values can occur       due to a variety of reasons such as data entry errors or incomplete information.
+     We create two classes at this stage:
+     A Plotter class to visualise insights from the data
+     A DataFrameTransformclass to perform EDA transformations on your data
+
+   - Skewed_columns.py:
+     Skewed data can lead to biased models and inaccurate results, so it's important to address this issue      before proceeding with any analysis.
+     Firstly we need to identify the skewed columns in the data. This can be done using standard Pandas           methods. We then need to determine a threshold for the skewness of the data, over which a column will        be considered skewed. We should also visualise the data using your Plotter class to analyse the skew.
+     Once the skewed columns are identified, we should perform transformations on these columns to determine      which transformation results in the biggest reduction in skew. We created the the method to transform        the columns in our DateFrameTransform class.
+
+   - remove_outliers.py:
+     Removing outliers from the dataset will improve the quality and accuracy of the analysis as outliers         can distort the analysis results. First we identify the outliers and then use a method to remove them.
+     First visualise our data using our Plotter class to determine if the columns contain outliers.
+     Once identified use a method to transform or remove the outliers from the dataset. With the outliers         transformed/removed re-visualise our data with our Plotter class to check that the outliers have been      correctly removed.
+
+   - dropping_overly_correlated_columns.py:
+     Highly correlated columns in a dataset can lead to multicollinearity issues, which can affect the           accuracy and interpretability of models built on the data. We will identify highly correlated columns       and remove them to improve the quality of the data.
+     First compute the correlation matrix for the dataset and visualise it.Then identify which columns are        highly correlated. We need to decide on a correlation threshold and to remove all columns above this         threshold.
+
+   - customers_doing.py:
+     Our manager would like a general overview of the performance of the website.We use pandas to find the      answers for the following questions answered:
+     Are sales proportionally happening more on weekends?
+     Which regions are generating the most revenue currently?
+     Is there any particular website traffic that stands out when generating sales?
+     What percentage of time is spent on the website performing administrative/product or informational      related tasks?
+     Are there any informational/administrative tasks which users spend time doing most?
+     What is the breakdown of months making the most sales?
+      
+
+
+
+
+
      
 ## Table columns
    Below columns of the database to help you understand their meaning.
