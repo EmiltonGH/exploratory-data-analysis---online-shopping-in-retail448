@@ -35,21 +35,6 @@ class DataTransform:
         return df
 
     @staticmethod
-    def convert_month_to_categorical(df, month_column):
-        """
-        Convert the month column in the DataFrame to categorical data type.
-
-        Parameters:
-        df (DataFrame): The pandas DataFrame.
-        month_column (str): The name of the column containing month information.
-
-        Returns:
-        DataFrame: The DataFrame with the month column converted to categorical.
-        """
-        df[month_column] = df[month_column].astype('category')
-        return df
-
-    @staticmethod
     def convert_weekend_to_binary(df, weekend_column):
         """
         Convert the weekend column in the DataFrame to binary integer values.
@@ -67,7 +52,6 @@ class DataTransform:
 
 df = pd.read_csv("customer_activity.csv")
 
-transformed_df = DataTransform.convert_to_categorical(df, ['operating_systems', 'browser', 'region', 'traffic_type', 'visitor_type'])
+transformed_df = DataTransform.convert_to_categorical(df, ['operating_systems', 'month', 'browser', 'region', 'traffic_type', 'visitor_type'])
 transformed_df = DataTransform.convert_to_numeric(transformed_df, ['administrative_duration', 'informational_duration', 'product_related_duration', 'bounce_rates', 'exit_rates', 'page_values'])
-transformed_df = DataTransform.convert_month_to_categorical(transformed_df, 'month')
 transformed_df = DataTransform.convert_weekend_to_binary(transformed_df, 'weekend')
