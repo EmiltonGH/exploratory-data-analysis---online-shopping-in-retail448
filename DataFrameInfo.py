@@ -1,71 +1,6 @@
 import pandas as pd
 from db_utils import RDSDatabaseConnector
-
-class DataTransform:
-    """A class containing static methods for data transformation."""
-
-    @staticmethod
-    def convert_to_categorical(df, columns):
-        """
-        Convert specified columns in the DataFrame to categorical data type.
-
-        Parameters:
-        df (DataFrame): The pandas DataFrame.
-        columns (list): A list of column names to convert to categorical.
-
-        Returns:
-        DataFrame: The DataFrame with specified columns converted to categorical data type.
-        """
-        for col in columns:
-            df[col] = df[col].astype('category')
-        return df
-
-    @staticmethod
-    def convert_to_numeric(df, columns):
-        """
-        Convert specified columns in the DataFrame to numeric data type.
-
-        Parameters:
-        df (DataFrame): The pandas DataFrame.
-        columns (list): A list of column names to convert to numeric.
-
-        Returns:
-        DataFrame: The DataFrame with specified columns converted to numeric data type.
-        """
-        for col in columns:
-            df[col] = pd.to_numeric(df[col], errors='coerce')
-        return df
-
-    @staticmethod
-    def convert_month_to_categorical(df, month_column):
-        """
-        Convert the month column in the DataFrame to categorical data type.
-
-        Parameters:
-        df (DataFrame): The pandas DataFrame.
-        month_column (str): The name of the column representing months.
-
-        Returns:
-        DataFrame: The DataFrame with the month column converted to categorical data type.
-        """
-        df[month_column] = df[month_column].astype('category')
-        return df
-
-    @staticmethod
-    def convert_weekend_to_binary(df, weekend_column):
-        """
-        Convert the weekend column in the DataFrame to binary integers.
-
-        Parameters:
-        df (DataFrame): The pandas DataFrame.
-        weekend_column (str): The name of the column representing weekends.
-
-        Returns:
-        DataFrame: The DataFrame with the weekend column converted to binary integers.
-        """
-        df[weekend_column] = df[weekend_column].astype(int)  
-        return df
-
+from DataTransform import DataTransform
 
 class DataFrameInfo:
     """A class for extracting information about a pandas DataFrame."""
@@ -128,11 +63,10 @@ class DataFrameInfo:
 if __name__ == "__main__":
     df = pd.read_csv("customer_activity.csv")
 
-    transformed_df = DataTransform.convert_to_categorical(df, ['operating_systems', 'browser', 'region', 'traffic_type', 'visitor_type'])
+    transformed_df = DataTransform.convert_to_categorical(df, ['operating_systems', 'month', 'browser', 'region', 'traffic_type', 'visitor_type'])
     transformed_df = DataTransform.convert_to_numeric(transformed_df, ['administrative_duration', 'informational_duration', 'product_related_duration', 'bounce_rates', 'exit_rates', 'page_values'])
-    transformed_df = DataTransform.convert_month_to_categorical(transformed_df, 'month')
     transformed_df = DataTransform.convert_weekend_to_binary(transformed_df, 'weekend')
-
+    
     info = DataFrameInfo(transformed_df)
     print("Column Data Types:")
     print(info.describe_columns())

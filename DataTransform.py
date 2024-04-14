@@ -50,8 +50,4 @@ class DataTransform:
         return df
 
 
-df = pd.read_csv("customer_activity.csv")
 
-transformed_df = DataTransform.convert_to_categorical(df, ['operating_systems', 'month', 'browser', 'region', 'traffic_type', 'visitor_type'])
-transformed_df = DataTransform.convert_to_numeric(transformed_df, ['administrative_duration', 'informational_duration', 'product_related_duration', 'bounce_rates', 'exit_rates', 'page_values'])
-transformed_df = DataTransform.convert_weekend_to_binary(transformed_df, 'weekend')
