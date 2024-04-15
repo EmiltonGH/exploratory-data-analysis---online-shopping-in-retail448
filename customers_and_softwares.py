@@ -51,13 +51,24 @@ plt.show()
 
 # Most commonly used browsers and their breakdown on mobile versus desktop
 browser_counts = customer_activity['browser'].value_counts()
-mobile_browser_counts = customer_activity[customer_activity['operating_systems'].str.contains('Mobile', na=False, case=False)]['browser'].value_counts()
-desktop_browser_counts = customer_activity[~customer_activity['operating_systems'].str.contains('Mobile', na=False, case=False)]['browser'].value_counts()
+
+# Define the list of mobile browsers
+mobile_browser_list = ['Chrome Mobile', 'Safari', 'Samsung Internet']
+
+# Define the list of desktop browsers
+desktop_browser_list = ['Chrome', 'Edge', 'Firefox',
+                        'Sogou Explorer', 'Opera', 'Yandex', 'QQ Browser',
+                        'Internet Explorer', 'UC Browser', 'Undetermined']
+
+# Filter for mobile browsers based on mobile operating systems
+mobile_browser_counts = customer_activity[customer_activity['browser'].isin(mobile_browser_list)]['browser'].value_counts()
+
+# Filter for desktop browsers based on desktop operating systems
+desktop_browser_counts = customer_activity[customer_activity['browser'].isin(desktop_browser_list)]['browser'].value_counts()
 
 plt.figure(figsize=(12, 6))
-plt.bar(browser_counts.index, browser_counts.values, color='skyblue', label='Total')
 plt.bar(mobile_browser_counts.index, mobile_browser_counts.values, color='lightgreen', label='Mobile')
-plt.bar(desktop_browser_counts.index, desktop_browser_counts.values, color='lightcoral', label='Desktop')
+plt.bar(desktop_browser_counts.index, desktop_browser_counts.values, color='skyblue', label='Desktop')
 plt.title('Most Commonly Used Browsers by Operating System Type')
 plt.xlabel('Browser')
 plt.ylabel('Count')
