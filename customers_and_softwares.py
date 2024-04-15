@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 # Load data into a DataFrame
-customer_activity = pd.read_csv('customer_activity.csv')  # Replace 'customer_activity.csv' with your file path
+customer_activity = pd.read_csv('customer_activity.csv')  
 
 # Drop rows with missing values in the 'operating_systems' column
 customer_activity = customer_activity.dropna(subset=['operating_systems'])
@@ -27,17 +27,27 @@ plt.ylabel('')
 plt.tight_layout()
 plt.show()
 
-# Amount of users visiting the site using mobile operating systems and desktop operating systems
-mobile_os_counts = customer_activity[customer_activity['operating_systems'].str.contains('Mobile', na=False, case=False)]['operating_systems'].value_counts()
-desktop_os_counts = customer_activity[~customer_activity['operating_systems'].str.contains('Mobile', na=False, case=False)]['operating_systems'].value_counts()
+# Define the list of mobile operating systems
+mobile_os_list = ['Android', 'iOS']
 
+# Define the list of desktop operating systems
+desktop_os_list = ['Windows', 'MACOS', 'ChromeOS', 'Ubuntu', 'Other']
+
+# Filter for mobile operating systems and count occurrences
+mobile_os_counts = customer_activity['operating_systems'].isin(mobile_os_list).sum()
+
+# Filter for desktop operating systems and count occurrences
+desktop_os_counts = customer_activity['operating_systems'].isin(desktop_os_list).sum()
+
+# Plot the bar chart for mobile and desktop operating systems
 plt.figure(figsize=(10, 6))
-plt.bar(['Mobile', 'Desktop'], [mobile_os_counts.sum(), desktop_os_counts.sum()], color=['lightgreen', 'skyblue'])
+plt.bar(['Mobile', 'Desktop'], [mobile_os_counts, desktop_os_counts], color=['lightgreen', 'skyblue'])
 plt.title('Number of Users Visiting the Site by Operating System Type')
 plt.xlabel('Operating System Type')
 plt.ylabel('Count')
 plt.tight_layout()
 plt.show()
+
 
 # Most commonly used browsers and their breakdown on mobile versus desktop
 browser_counts = customer_activity['browser'].value_counts()
