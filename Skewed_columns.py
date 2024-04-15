@@ -1,131 +1,49 @@
-import matplotlib.pyplot as plt
-import seaborn as sns
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
-class Plotter:
-    """
-    A utility class for plotting data.
+class DataSkewAnalyzer:
+    def __init__(self, data):
+        self.data = data
 
-    Methods:
-        - plot_null_values(df): Plots a heatmap showing the presence of missing values in the DataFrame.
-        - visualize_skew(df, skewed_cols): Visualizes the skewness of specified columns using histograms.
-    """
+    def identify_skewed_columns(self, threshold=0.5):
+        skewed_cols = []
+        for col in self.data.columns:
+            if self.data[col].dtype in ['int64', 'float64']:
+                skewness = self.data[col].skew()
+                if abs(skewness) > threshold:
+                    skewed_cols.append((col, skewness))
+        return skewed_cols
 
-    @staticmethod
-    def plot_null_values(df):
-        """
-        Plots a heatmap showing the presence of missing values in the DataFrame.
-
-        Parameters:
-            df (DataFrame): The DataFrame containing the data to be plotted.
-        """
-        pass  # Method implementation
-
-    @staticmethod
-    def visualize_skew(df, skewed_cols):
-        """
-        Visualizes the skewness of specified columns using histograms.
-
-        Parameters:
-            df (DataFrame): The DataFrame containing the data to be visualized.
-            skewed_cols (list): A list of column names with skewed distributions.
-        """
-        pass  # Method implementation
-
+    def visualize_skew(self, column):
+        plt.figure(figsize=(10, 6))
+        plt.hist(self.data[column], bins=30, color='skyblue', edgecolor='black')
+        plt.title(f'Distribution of {column}')
+        plt.xlabel(column)
+        plt.ylabel('Frequency')
+        plt.show()
 
 class DataFrameTransform:
-    """
-    A utility class for transforming DataFrame.
+    def __init__(self, data):
+        self.data = data
 
-    Methods:
-        - check_null_values(df): Checks for null values in the DataFrame.
-        - drop_columns_with_null(df, threshold=0.5): Drops columns with a high percentage of null values.
-        - impute_null_values(df, strategy='mean'): Imputes null values using the specified strategy ('mean' or 'median').
-        - identify_skewed_columns(df, skew_threshold=1): Identifies columns with skewness above a threshold.
-        - identify_best_transformation(df, skewed_cols): Identifies the best transformation for skewed columns.
-        - apply_transformations(df, transformations): Applies transformations to the DataFrame.
-    """
+    def apply_log_transform(self, column):
+        self.data[column] = np.log1p(self.data[column])
 
-    @staticmethod
-    def check_null_values(df):
-        """
-        Checks for null values in the DataFrame.
+    def apply_sqrt_transform(self, column):
+        self.data[column] = np.sqrt(self.data[column])
 
-        Parameters:
-            df (DataFrame): The DataFrame to check for null values.
+# Load your DataFrame here
+data = pd.read_csv('customer_activity.csv')
 
-        Returns:
-            Series: A Series containing the count of null values for each column.
-        """
-        pass  # Method implementation
+# Example usage
+skew_analyzer = DataSkewAnalyzer(data)
+skewed_columns = skew_analyzer.identify_skewed_columns(threshold=0.5)
+print("Skewed Columns:")
+for col, skewness in skewed_columns:
+    print(f"{col}: Skewness = {skewness}")
+    skew_analyzer.visualize_skew(col)
 
-    @staticmethod
-    def drop_columns_with_null(df, threshold=0.5):
-        """
-        Drops columns with a high percentage of null values.
-
-        Parameters:
-            df (DataFrame): The DataFrame to drop columns from.
-            threshold (float): The threshold percentage of null values above which columns are dropped. Default is 0.5.
-
-        Returns:
-            DataFrame: The DataFrame with columns dropped.
-        """
-        pass  # Method implementation
-
-    @staticmethod
-    def impute_null_values(df, strategy='mean'):
-        """
-        Imputes null values using the specified strategy.
-
-        Parameters:
-            df (DataFrame): The DataFrame to impute null values in.
-            strategy (str): The imputation strategy. Options are 'mean' or 'median'. Default is 'mean'.
-
-        Returns:
-            DataFrame: The DataFrame with null values imputed.
-        """
-        pass  # Method implementation
-
-    @staticmethod
-    def identify_skewed_columns(df, skew_threshold=1):
-        """
-        Identifies columns with skewness above a threshold.
-
-        Parameters:
-            df (DataFrame): The DataFrame to identify skewed columns in.
-            skew_threshold (float): The threshold above which columns are considered skewed. Default is 1.
-
-        Returns:
-            list: A list of column names with skewness above the threshold.
-        """
-        pass  # Method implementation
-
-    @staticmethod
-    def identify_best_transformation(df, skewed_cols):
-        """
-        Identifies the best transformation for skewed columns.
-
-        Parameters:
-            df (DataFrame): The DataFrame containing the skewed columns.
-            skewed_cols (list): A list of column names with skewed distributions.
-
-        Returns:
-            dict: A dictionary mapping column names to the best transformation function.
-        """
-        pass  # Method implementation
-
-    @staticmethod
-    def apply_transformations(df, transformations):
-        """
-        Applies transformations to the DataFrame.
-
-        Parameters:
-            df (DataFrame): The DataFrame to apply transformations to.
-            transformations (dict): A dictionary mapping column names to transformation functions.
-
-        Returns:
-            DataFrame: The DataFrame with transformations applied.
-        """
-        pass  # Method implementation
+transformer = DataFrameTransform(data)
+for col, _ in skewed_columns:
+    transformer.apply_log_transform(col)  # or apply_sqrt_transform, etc.
